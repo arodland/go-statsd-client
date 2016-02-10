@@ -5,6 +5,7 @@ import "time"
 type NoopClient struct {
 	// prefix for statsd name
 	prefix string
+	rate float32
 }
 
 // Close closes the connection and cleans up.
@@ -89,6 +90,11 @@ func (s *NoopClient) Raw(stat string, value string, rate float32) error {
 // Sets/Updates the statsd client prefix
 func (s *NoopClient) SetPrefix(prefix string) {
 	s.prefix = prefix
+}
+
+// Sets/Updates the pre-applied sample rate
+func (s *NoopClient) SetSampleRate(rate float32) {
+	s.rate = rate
 }
 
 // Returns a SubStatter with appended prefix
