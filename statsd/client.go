@@ -26,6 +26,7 @@ type Statter interface {
 	StatSender
 	NewSubStatter(string) SubStatter
 	SetPrefix(string)
+	SetSampleRate(float32)
 	Close() error
 }
 
@@ -241,7 +242,7 @@ func (s *Client) SetPrefix(prefix string) {
 	s.prefix = prefix
 }
 
-func (s *Client) SetRate(rate float32) {
+func (s *Client) SetSampleRate(rate float32) {
 	if s == nil {
 		return
 	}
