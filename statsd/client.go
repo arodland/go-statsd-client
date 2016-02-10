@@ -39,6 +39,7 @@ type Client struct {
 	prefix string
 	// packet sender
 	sender Sender
+	rate float32
 }
 
 // Close closes the connection and cleans up.
@@ -202,6 +203,10 @@ func (s *Client) submit(stat, vprefix string, value interface{}, suffix string, 
 		b = append(b, suffix...)
 	}
 
+	if s.rate != 0 && s.rate != 1 {
+		rate *= s.rate
+	}
+
 	if rate < 1 {
 		b = append(b, "|@"...)
 		b = strconv.AppendFloat(b, float64(rate), 'f', 6, 32)
@@ -234,6 +239,14 @@ func (s *Client) SetPrefix(prefix string) {
 	}
 
 	s.prefix = prefix
+}
+
+func (s *Client) SetRate(rate float32) {
+	if s == nil {
+		return
+	}
+
+	s.rate = rate
 }
 
 // Returns a SubStatter with appended prefix
